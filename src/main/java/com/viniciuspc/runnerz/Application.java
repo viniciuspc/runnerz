@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 
 import com.viniciuspc.runnerz.run.Location;
 import com.viniciuspc.runnerz.run.Run;
+import com.viniciuspc.runnerz.run.RunRepository;
 
 @SpringBootApplication
 public class Application {
@@ -21,12 +22,12 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 
-	@Bean
-	CommandLineRunner runner() {
-		return args -> {
-			Run run = new Run(1, "First Run", LocalDateTime.now(), LocalDateTime.now().plusHours(1), 5, Location.OUTDOOR);
+	// @Bean
+	// CommandLineRunner runner(RunRepository runRepository) {
+	// 	return args -> {
+	// 		Run run = new Run(1,"First Run", LocalDateTime.now(), LocalDateTime.now().plusHours(1), 5, Location.OUTDOOR);
 
-			log.info("Run:" + run);
-		};
-	}
+	// 		runRepository.create(run);
+	// 	};
+	// }
 }
