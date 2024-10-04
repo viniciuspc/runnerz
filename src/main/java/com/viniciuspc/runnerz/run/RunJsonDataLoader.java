@@ -12,11 +12,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 public class RunJsonDataLoader implements CommandLineRunner{
-  private static final Logger log = LoggerFactory.getLogger(RunRepository.class);
-  private final RunRepository runRepository;
+  private static final Logger log = LoggerFactory.getLogger(JdbcClientRunRepository.class);
+  private final JdbcClientRunRepository runRepository;
   private final ObjectMapper objectMapper;
 
-  public RunJsonDataLoader(RunRepository runRepository, ObjectMapper objectMapper) {
+  public RunJsonDataLoader(JdbcClientRunRepository runRepository, ObjectMapper objectMapper) {
     this.runRepository = runRepository;
     this.objectMapper = objectMapper;
   }
@@ -31,6 +31,8 @@ public class RunJsonDataLoader implements CommandLineRunner{
       } catch (IOException e) {
         log.error("Failed to load runs", e);
       }
+    } else {
+      log.info("Not loading runs, data already loaded");
     }
   }
 

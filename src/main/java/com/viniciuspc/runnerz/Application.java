@@ -8,10 +8,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestClient;
+import org.springframework.web.client.support.RestClientAdapter;
+import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
-import com.viniciuspc.runnerz.run.Location;
-import com.viniciuspc.runnerz.run.Run;
-import com.viniciuspc.runnerz.run.RunRepository;
+import com.viniciuspc.runnerz.user.User;
+import com.viniciuspc.runnerz.user.UserHttpClient;
 
 @SpringBootApplication
 public class Application {
@@ -30,4 +32,20 @@ public class Application {
 	// 		runRepository.create(run);
 	// 	};
 	// }
+
+	@Bean
+	UserHttpClient userHttpClient() {
+		RestClient restClient = RestClient.create("https://jsonplaceholder.typicode.com/");
+		HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(RestClientAdapter.create(restClient)).build();
+		return factory.createClient(UserHttpClient.class);
+	}
+
+	@Bean
+	CommandLineRunner runner(UserHttpClient client) {
+		return args -> {
+			//client.findAll().forEach(user -> log.info(user.toString()));
+			User user = client.findById(1);
+			System.out.println(user);
+		};
+	}
 }
